@@ -19,6 +19,9 @@ jobs:
     - name: Install Siskin Builder
       uses: oldes/install-siskin@v0.17.0
 
+    - name: Install YASM
+      run:  choco install yasm
+
     - name: Build 64bit AOMedia libraries
       run: ./siskin Rebol-AOMedia.nest aom-libraries-x64
 
