@@ -1,0 +1,105 @@
+;-    .-.                                                                       
+;-   /'v'\   SISKIN-Builder 3.17.0 project file                                 
+;-  (/uOu\)  https://github.com/Siskin-framework/Builder/                       
+;-===="="=======================================================================
+git:    https://aomedia.googlesource.com/aom
+
+define: USE_TRACES
+compiler: clang
+strip: on
+
+;- options common for all Rebol extensions ----------------------
+#if Windows? [
+	define: TO_WINDOWS
+	define: _CRT_SECURE_NO_WARNINGS
+]
+#if macOS?   [
+	define: TO_OSX
+	define: HAS_BOOL
+]
+#if Linux? [
+	define: TO_LINUX
+	compiler: gcc
+]
+
+define: ENDIAN_LITTLE
+define: REB_EXT
+define: UNICODE
+define: _UNICODE
+
+target-x86: [
+	arch: x86
+	#if Windows? [ defines: [ TO_WIN32 _WIN32 ] ]
+	#if Linux?   [ defines: [ TO_LINUX_X86    ] ]
+]
+target-x64: [
+	arch: x64
+	defines: [
+		_FILE_OFFSET_BITS=64
+		__LP64__ ; has long (integer) 64 bits
+	]
+	#if Windows? [ defines: [ TO_WIN32_X64 _WIN32 ] ]
+	#if Linux?   [ defines: [ TO_LINUX_X64        ] ]
+	#if macOS?   [ defines: [ TO_OSX_X64          ] flags: ["-arch x86_64"] ]
+]
+target-arm64: [
+	arch: arm64
+	;flags: ["-arch arm64"]
+	flags: "-target arm64-apple-darwin"
+	define: _FILE_OFFSET_BITS=64
+	define: __LP64__ ; has long (integer) 64 bits
+	define: __arm64__
+	define: TO_OSX_X64
+]
+
+aomedia: [
+	library: [%lib/ %aom %aom_av1_rc]
+	include: %aom/
+	include: %aom/third_party/libyuv/include/
+]
+libyuv: [
+	include: %aom/third_party/libyuv/include/
+	file: %aom/third_party/libyuv/source/convert.cc
+	file: %aom/third_party/libyuv/source/row_common.cc
+	file: %aom/third_party/libyuv/source/row_any.cc
+	file: %aom/third_party/libyuv/source/row_win.cc
+	file: %aom/third_party/libyuv/source/planar_functions.cc
+	file: %aom/third_party/libyuv/source/scale_common.cc
+	file: %aom/third_party/libyuv/source/scale_win.cc
+	file: %aom/third_party/libyuv/source/scale.cc
+	file: %aom/third_party/libyuv/source/scale_uv.cc
+	;file: %aom/third_party/libyuv/source/convert_from_argb.cc
+	;define: HAS_ARGBTOUVJROW_AVX2
+]
+
+make-extension: [
+	:aomedia
+	;:libyuv
+	files: [
+		%src/aomedia-rebol-extension.c
+		%src/aomedia-commands.c
+		%src/aomedia-commands-table.c
+	]
+	flags:   [-O2 shared]
+	;- generate main extension header --------------------------------
+	do %src/aomedia-rebol-extension.r3 
+]
+
+
+eggs: only [
+
+	#if Windows? [
+		"Build aom libraries (cmake) x64" [
+			name: %aom-libraries-x64
+			cmd %tmp/x64/ "cmake ../../aom/ -A x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=ON -DENABLE_TESTS=OFF -DENABLE_TOOLS=OFF"
+			cmd %tmp/x64/ "cmake --build . --config release -j 8"
+			cmd %tmp/x64/ "XCOPY /y Release\*.lib ..\..\lib\"
+		]
+		"Rebol aomedia extension: windows_x64" [
+			name: %aomedia-windows-x64
+			:make-extension
+			:target-x64
+		]
+	]
+
+]

@@ -1,0 +1,43 @@
+name: 'Rebol-AOMedia CI'
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Siskin Builder
+      uses: oldes/install-siskin@v0.17.0
+
+    - name: Build 64bit AOMedia libraries
+      run: ./siskin Rebol-OpenCV.nest aom-libraries-x64
+
+    - name: Build 64bit Rebol/AOMedia extension
+      run: ./siskin Rebol-AOMedia.nest --msvc aomedia-windows-x64.rebx
+
+    - name: Prepare 64bit Rebol/AOMedia extension
+      run:  MOVE ./build/aomedia-windows-x64.rebx ./aomedia-windows-x64.rebx
+
+    - name: Install Rebol for extension test
+      uses: oldes/install-rebol@v3.16.0
+      with:
+        product: Bulk
+
+    - name: Minimal Rebol/AOMedia extension test
+      run:  ./rebol3 ci-test.r3
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: Rebol-AOMedia-CI-${{github.run_id}}
+        path: ./*.rebx
+
