@@ -1,4 +1,4 @@
-[![Rebol-AOMedia CI](https://github.com/Oldes/Rebol-AOMedia/actions/workflows/main.yml/badge.svg)](https://github.com/Oldes/Rebol-AOMedia/actions/workflows/main.yml)
+[![Rebol-AOMedia CI](https://github.com/Oldes/Rebol-AOMedia/actions/workflows/master.yml/badge.svg)](https://github.com/Oldes/Rebol-AOMedia/actions/workflows/master.yml)
 
 # Rebol/AOMedia
 
