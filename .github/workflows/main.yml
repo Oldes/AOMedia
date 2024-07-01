@@ -20,13 +20,10 @@ jobs:
       uses: oldes/install-siskin@v0.17.0
 
     - name: Build 64bit AOMedia libraries
-      run: ./siskin Rebol-OpenCV.nest aom-libraries-x64
+      run: ./siskin Rebol-AOMedia.nest aom-libraries-x64
 
     - name: Build 64bit Rebol/AOMedia extension
-      run: ./siskin Rebol-AOMedia.nest --msvc aomedia-windows-x64.rebx
-
-    - name: Prepare 64bit Rebol/AOMedia extension
-      run:  MOVE ./build/aomedia-windows-x64.rebx ./aomedia-windows-x64.rebx
+      run: ./siskin Rebol-AOMedia.nest --msvc -o ./aomedia-windows-x64.rebx aomedia-windows-x64.rebx
 
     - name: Install Rebol for extension test
       uses: oldes/install-rebol@v3.16.0
@@ -36,7 +33,7 @@ jobs:
     - name: Minimal Rebol/AOMedia extension test
       run:  ./rebol3 ci-test.r3
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: Rebol-AOMedia-CI-${{github.run_id}}
         path: ./*.rebx
