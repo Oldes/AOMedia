@@ -1,10 +1,15 @@
 name: 'Rebol-AOMedia CI'
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-#  push:
-#    branches: [ master ]
-#  pull_request:
-#    branches: [ master ]
+  push:
+    branches: [ master ]
+    paths:
+      - src/**s
+      - ci-test.r3
+      - Rebol-AOMedia.nest
+
+  pull_request:
+    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -52,6 +57,9 @@ jobs:
 
     - name: Install Siskin Builder
       uses: oldes/install-siskin@v0.17.0
+
+    - name: Install NASM
+      run:  brew install nasm
 
     - name: Build AOMedia libraries
       run: ./siskin Rebol-AOMedia.nest libaom
