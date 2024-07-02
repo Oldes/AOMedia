@@ -60,7 +60,7 @@ RXIEXT const char *RX_Init(int opts, RL_LIB *lib) {
 	spec.set_path  = AV1Encoder_set_path;
 	Handle_AV1Encoder = RL_REGISTER_HANDLE_SPEC((REBYTE*)"AV1Encoder", &spec);
 
-	debug_print("AOMEncoderContext size: %u\n", spec.size);
+	//debug_print("AOMEncoderContext size: %u\n", spec.size);
 
 	return init_block;
 }

@@ -4,7 +4,7 @@
 ;-===="="=======================================================================
 git:    https://aomedia.googlesource.com/aom
 
-define: USE_TRACES
+;define: USE_TRACES
 compiler: clang
 strip: on
 

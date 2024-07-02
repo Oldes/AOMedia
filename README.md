@@ -16,7 +16,7 @@ aomedia: import aomedia
 #### `test`
 Just an example
 
-#### `aom-encoder` `:size`
+#### `make-encoder` `:size`
 Initialize a new AV1 Encoder
 * `size` `[pair!]` Size of the output
 * `/with`
