@@ -43,7 +43,7 @@ Encode an image into a AV1Encoder object
 
 ## Used handles and its getters / setters
 
-#### __AOMEDIA-HANDLE__ - AOMedia handle
+#### __AV1ENCODER__ - AV1Encoder encoder instance
 
 ```rebol
 ;Refinement       Gets                Sets                          Description
@@ -76,7 +76,7 @@ config-options: [
     usage: integer!   "AOM_USAGE_GOOD_QUALITY, AOM_USAGE_REALTIME or AOM_USAGE_ALL_INTRA"
     rate-control: integer! "0-3"
     constant-quality:            integer! "Ensure that every frame gets the number of bits it deserves to achieve a certain (perceptual) quality level, rather than encoding each frame to meet a bit rate target"
-    
+
     ;- Generic settings
     g_usage:                     integer! "Algorithm specific `usage` value"
     g_threads:                   integer! "Maximum number of threads to use"
@@ -119,7 +119,7 @@ config-options: [
     rc_2pass_vbr_bias_pct:       integer! "CBR/VBR bias, expressed on a scale of 0 to 100, for determining target size for the current frame"
     rc_2pass_vbr_minsection_pct: integer! "This value, expressed as a percentage of the target bitrate, indicates the minimum bitrate to be used for a single GOP (aka `section`)"
     rc_2pass_vbr_maxsection_pct: integer! "This value, expressed as a percentage of the target bitrate, indicates the maximum bitrate to be used for a single GOP"
-    
+
     ;- keyframing settings (kf)
     fwd_kf_enabled:              integer! "Option to enable forward reference key frame"
     kf_mode:                     integer! "This value indicates whether the encoder should place keyframes at a fixed interval (0), or determine the optimal placement automatically (1)"
