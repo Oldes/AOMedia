@@ -27,14 +27,12 @@ extern u32* type_words;
 
 enum ext_commands {
 	CMD_MINIAUDIO_INIT_WORDS,
-	CMD_MINIAUDIO_TEST,
 	CMD_MINIAUDIO_MAKE_ENCODER,
 	CMD_MINIAUDIO_ENCODE_FRAME,
 };
 
 
 int cmd_init_words(RXIFRM *frm, void *ctx);
-int cmd_test(RXIFRM *frm, void *ctx);
 int cmd_make_encoder(RXIFRM *frm, void *ctx);
 int cmd_encode_frame(RXIFRM *frm, void *ctx);
 
@@ -92,7 +90,6 @@ typedef int (*MyCommandPointer)(RXIFRM *frm, void *ctx);
 #define AOMEDIA_EXT_INIT_CODE \
 	"REBOL [Title: {Rebol AOMedia Extension} Type: module Version: 0.0.0.1 Needs: 3.14.1 Home:  https://github.com/Oldes/Rebol-AOMedia ]\n"\
 	"init-words: command [args [block!] type [block!]]\n"\
-	"test: command [\"Just an example\"]\n"\
 	"make-encoder: command [\"Initialize a new AV1 Encoder\" size [pair!] \"Size of the output\" /with config [block!]]\n"\
 	"encode-frame: command [\"Encode an image into a AV1Encoder object\" encoder [handle!] {AV1Encoder object to which the frame is to be added} image [image! none!] {Rebol image to be added. Use `none` to finish the stream.}]\n"\
 	"init-words [usage: rate-control: constant-quality: g_usage: g_threads: g_profile: g_bit_depth: g_input_bit_depth: g_timebase_num: g_timebase_den: g_error_resilient: g_pass: g_lag_in_frames: rc_dropframe_thresh: rc_resize_mode: rc_resize_denominator: rc_resize_kf_denominator: rc_superres_mode: rc_superres_denominator: rc_superres_kf_denominator: rc_superres_qthresh: rc_superres_kf_qthresh: rc_end_usage: rc_target_bitrate: rc_min_quantizer: rc_max_quantizer: rc_undershoot_pct: rc_overshoot_pct: rc_buf_sz: rc_buf_initial_sz: rc_buf_optimal_sz: rc_2pass_vbr_bias_pct: rc_2pass_vbr_minsection_pct: rc_2pass_vbr_maxsection_pct: fwd_kf_enabled: kf_mode: kf_min_dist: kf_max_dist: sframe_dist: sframe_mode: large_scale_tile: monochrome: buffer header][]\n"\

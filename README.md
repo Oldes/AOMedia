@@ -17,9 +17,6 @@ write %video.obu aom/encode-frame :enc none          ;; write output into a file
 ## Extension commands:
 
 
-#### `test`
-Just an example
-
 #### `make-encoder` `:size`
 Initialize a new AV1 Encoder
 * `size` `[pair!]` Size of the output

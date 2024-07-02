@@ -12,7 +12,6 @@
 #include "aomedia-rebol-extension.h"
 MyCommandPointer Command[] = {
 	cmd_init_words,
-	cmd_test,
 	cmd_make_encoder,
 	cmd_encode_frame,
 };

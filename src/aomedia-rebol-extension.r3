@@ -10,7 +10,6 @@ REBOL [
 ;- all extension command specifications ----------------------------------------
 commands: [
 	init-words:    [args [block!] type [block!]] ;; used internaly only!
-	test: ["Just an example"]
 
 	make-encoder: [
 		"Initialize a new AV1 Encoder"
