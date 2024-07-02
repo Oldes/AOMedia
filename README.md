@@ -7,8 +7,11 @@ AOMedia extension for [Rebol3](https://github.com/Oldes/Rebol3) (version 3.14.1 
 
 ## Usage
 ```rebol
-aomedia: import aomedia
-
+aom: import aomedia                                  ;; import the extension module
+aom/encode-frame :enc make image! [640x480 255.0.0]  ;; encode red image
+aom/encode-frame :enc make image! [640x480 0.255.0]  ;; encode green image
+aom/encode-frame :enc make image! [640x480 0.0.255]  ;; encode blue image
+write %video.obu aom/encode-frame :enc none          ;; write output into a file (using `none` to notify end of stream)
 ```
 
 ## Extension commands:
