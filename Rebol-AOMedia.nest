@@ -91,7 +91,7 @@ eggs: only [
 	#if Windows? [
 		"Build aom libraries (cmake) x64" [
 			name: %aom-libraries-x64
-			cmd %tmp/x64/ "cmake ../../aom/ -A x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=ON -DENABLE_TESTS=OFF -DENABLE_TOOLS=OFF"
+			cmd %tmp/x64/ "cmake ../../aom/ -A x64 -DCMAKE_BUILD_TYPE=Release -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF -DENABLE_TOOLS=OFF"
 			cmd %tmp/x64/ "cmake --build . --config release -j 8"
 			cmd %tmp/x64/ "XCOPY /y Release\*.lib ..\..\lib\"
 		]
@@ -102,4 +102,22 @@ eggs: only [
 		]
 	]
 
+	#if macOS? [
+		"Build aom libraries (cmake)" [
+			name: %libaom
+			cmd %tmp/macos/ "cmake ../../aom/ -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DENABLE_EXAMPLES=OFF -DENABLE_TESTS=OFF -DENABLE_TOOLS=OFF"
+			cmd %tmp/macos/ "cmake --build . --config release -j 8"
+			cmd %lib/ "mv ../tmp/macos/*.a ./"
+		]
+		"Rebol aomedia extension: macos_x64" [
+			name: %aomedia-macos-x64
+			:make-extension
+			:target-x64
+		]
+		"Rebol aomedia extension: macos_arm64" [
+			name: %aomedia-macos-arm64
+			:make-extension
+			:target-arm64
+		]
+	]
 ]

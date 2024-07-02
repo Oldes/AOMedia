@@ -41,3 +41,39 @@ jobs:
         name: Rebol-AOMedia-CI-${{github.run_id}}
         path: ./*.rebx
 
+  macos:
+    strategy:
+      fail-fast: true
+    runs-on: macos-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install Siskin Builder
+      uses: oldes/install-siskin@v0.17.0
+
+    - name: Build AOMedia libraries
+      run: ./siskin Rebol-AOMedia.nest libaom
+
+    - name: Build 64bit Rebol AOMedia extension
+      run: ./siskin Rebol-AOMedia.nest -o ./aomedia-macos-x64.rebx aomedia-macos-x64
+
+    - name: Install Rebol for extension test
+      uses: oldes/install-rebol@v3.17.0
+      with:
+        product: Bulk # used `resize` in tests
+
+    - name: Test extension
+      run:  ./rebol3 ci-test.r3
+
+    ###############################################################################
+    # Collecting build artifacts...
+
+    - name: Compress Rebol/AOMedia extension
+      run:  gzip -9 ./build/aomedia-macos-x64.rebx
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Rebol-AOMedia-macOS-${{github.run_id}}
+        path: ./*.rebx.gz
