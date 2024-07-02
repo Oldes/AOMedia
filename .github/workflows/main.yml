@@ -79,7 +79,7 @@ jobs:
     # Collecting build artifacts...
 
     - name: Compress Rebol/AOMedia extension
-      run:  gzip -9 ./build/aomedia-macos-x64.rebx
+      run:  gzip -9 ./aomedia-macos-x64.rebx
 
     - uses: actions/upload-artifact@v4
       with:
